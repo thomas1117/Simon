@@ -6,7 +6,11 @@ var overlay = document.getElementById('overlay');
 var play = document.getElementById('play');
 var player1String = '';
 var simon = '';
-
+var score = 0;
+var audio1 = new Audio('tone1.wav');
+var audio2 = new Audio('tone2.wav');
+var audio3 = new Audio('tone3.wav');
+var audio4 = new Audio('tone4.wav');
 
 simonButton(button1,1);
 simonButton(button2,2);
@@ -15,11 +19,16 @@ simonButton(button4,4);
 
 play.addEventListener('click',function(){
 	pushToSimon();
+	play.style = 'display:none';
 });
 
 function simonButton(button,number) {
 	button.addEventListener('click',function(){
-		player1String += number	
+		player1String += number;
+		glow(button)
+		var audio = new Audio('tone'+ number + '.wav');
+		audio.play();
+		audio.currentTime = 0;	
 		var simonCut = simon.slice(0,player1String.length)
 		comparePlayerLists(player1String,simonCut)
 	});
@@ -40,9 +49,11 @@ function comparePlayerLists(player1,simonSlice) {
 	if(player1===simonSlice && player1.length===simon.length) {
 		player1String = '';
 		pushToSimon();
+		document.getElementById('score').innerHTML = simon.length;
 	}
 	else if(player1===simonSlice) {
-		// do nothing
+		
+		//do nothing
 	}
 	
 	else {resetGame()}
@@ -51,7 +62,9 @@ function comparePlayerLists(player1,simonSlice) {
 function resetGame() {
 	player1String = '';
 	simon = '';
-	pushToSimon();
+	play.style = 'display:block';
+	document.getElementById('score').innerHTML = simon.length;
+	
 	
 }
 
@@ -68,31 +81,21 @@ function removeClass(ele,cls) {
 }
 
 function animate(num) {
+
+	var button = this['button' + num];
+	var audio = new Audio('tone'+ num +'.wav');
+
+	glow(button)
+
+	audio.play()
+	audio.currentTime = 0;	
+
 	
-	switch(num){
-		case "1":
-			addClass(button1,'test');
-			setTimeout(function(){removeClass(button1,'test')},400);
-			break;
+}
 
-		case "2":
-			addClass(button2,'test');
-			setTimeout(function(){removeClass(button2,'test')},400);
-			break;
-
-		case "3":
-			addClass(button3,'test');
-			setTimeout(function(){removeClass(button3,'test')},400);
-			break;
-
-		case "4":
-			addClass(button4,'test');
-			setTimeout(function(){removeClass(button4,'test')},400);
-			break;
-
-	default:
-		console.log('not working')
-	}
+function glow(button) {
+	addClass(button,'test');
+	setTimeout(function(){removeClass(button,'test')},400);
 }
 
 function iterate(arr,time){
@@ -102,16 +105,20 @@ function iterate(arr,time){
 	function loop() {
 		if(count< total) {
 			setTimeout(loop,time);
+
 			animate(arr[count]);
+
 			addClass(overlay,'overlay');
+
 			count++;
 		}
 		if(count===total) {
+
 			removeClass(overlay,'overlay')
 		}		
-}
-loop()
+	}
 
+loop()
 
 };
 
