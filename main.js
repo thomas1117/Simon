@@ -77,7 +77,7 @@ function addClass(ele,cls) {
 function removeClass(ele,cls) {
 	var bla = ele.className;
 	var filtered = bla.replace(cls,"");
-	ele.className = filtered;
+	ele.className = filtered.trim();
 }
 
 function animate(num) {
@@ -94,8 +94,8 @@ function animate(num) {
 }
 
 function glow(button) {
-	addClass(button,'test');
-	setTimeout(function(){removeClass(button,'test')},400);
+	addClass(button,'glow');
+	setTimeout(function(){removeClass(button,'glow')},400);
 }
 
 function iterate(arr,time){
@@ -121,5 +121,3 @@ function iterate(arr,time){
 loop()
 
 };
-
-
