@@ -2,11 +2,15 @@ var button1 = document.getElementById('1');
 var button2 = document.getElementById('2');
 var button3 = document.getElementById('3');
 var button4 = document.getElementById('4');
+
 var overlay = document.getElementById('overlay');
+
 var play = document.getElementById('play');
+
 var player1String = '';
 var simon = '';
 var score = 0;
+
 var audio1 = new Audio('tone1.wav');
 var audio2 = new Audio('tone2.wav');
 var audio3 = new Audio('tone3.wav');
@@ -25,23 +29,23 @@ play.addEventListener('click',function(){
 function simonButton(button,number) {
 	button.addEventListener('click',function(){
 		player1String += number;
-		glow(button)
+		glow(button);
 		var audio = new Audio('tone'+ number + '.wav');
 		audio.play();
 		audio.currentTime = 0;	
-		var simonCut = simon.slice(0,player1String.length)
-		comparePlayerLists(player1String,simonCut)
+		var simonCut = simon.slice(0,player1String.length);
+		comparePlayerLists(player1String,simonCut);
 	});
 }
 
 function generateRandomNumber(min,max) {
-	return Math.round(Math.random() * (max-min) + 1)
+	return Math.round(Math.random() * (max-min) + 1);
 }
 
 function pushToSimon() {
 	setTimeout(function(){
 		simon += generateRandomNumber(1,4);
-		iterate(simon,600)
+		iterate(simon,600);
 	},1000)
 }
 
@@ -53,7 +57,7 @@ function comparePlayerLists(player1,simonSlice) {
 	}
 	else if(player1===simonSlice) {
 		
-		//do nothing
+		// do nothing
 	}
 	
 	else {resetGame()}
@@ -63,7 +67,7 @@ function resetGame() {
 	player1String = '';
 	simon = '';
 	play.style = 'display:block';
-	document.getElementById('score').innerHTML = simon.length;
+	document.getElementById('score').innerHTML = 0;
 	
 	
 }
@@ -85,9 +89,9 @@ function animate(num) {
 	var button = this['button' + num];
 	var audio = new Audio('tone'+ num +'.wav');
 
-	glow(button)
+	glow(button);
 
-	audio.play()
+	audio.play();
 	audio.currentTime = 0;	
 
 	
@@ -103,7 +107,7 @@ function iterate(arr,time){
 	var total = arr.length;
 	
 	function loop() {
-		if(count< total) {
+		if(count < total) {
 			setTimeout(loop,time);
 
 			animate(arr[count]);
@@ -112,12 +116,12 @@ function iterate(arr,time){
 
 			count++;
 		}
-		if(count===total) {
+		if(count === total) {
 
-			removeClass(overlay,'overlay')
+			removeClass(overlay,'overlay');
 		}		
 	}
 
-loop()
+loop();
 
 };
